@@ -1,0 +1,11 @@
+{% import "_includes/forms" as forms %}
+
+{{ forms.textField({
+    label: "Key"|t,
+    id: 'key',
+    name: 'key',
+    instructions: "The key that will verify calls to the plugin. This must be set for calls to work."|t,
+    value: settings.key,
+    autofocus: true,
+    errors: settings.getErrors('key')
+}) }}
