@@ -17,7 +17,7 @@ class DumpController extends BaseController
         // check if plugin is installed
         if (!$plugin = craft()->plugins->getPlugin('dump'))
         {
-            throw new Exception('Could not find the plugin');
+            die('Could not find the plugin');
         }
 
         // get settings
@@ -29,7 +29,7 @@ class DumpController extends BaseController
         // verify key
         if (!$settings->key OR $key != $settings->key)
         {
-            throw new Exception('Unauthorised key');
+            die('Unauthorised key');
         }
 
         // run backup
@@ -41,6 +41,6 @@ class DumpController extends BaseController
             $this->redirectToPostedUrl();
         }
 
-        die('success');
+        die('Success');
     }
 }
