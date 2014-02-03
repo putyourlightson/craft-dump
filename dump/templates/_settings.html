@@ -12,14 +12,7 @@
 }) }}
 
 
-{% if settings.key | length %}
-	{% set key = settings.key %}
-	{% set templateCode = "{{ actionUrl('dump/backup', { key: '" ~ key ~ "' }) }}" %}
-{% else %}
-	{% set key = "12345678" %}
-	{% set templateCode = "{{ actionUrl('dump/backup', { key: '" ~ key ~ "' }) }}" %}
-{% endif %}
-
+{% set key = settings.key ? settings.key : '1234567890' %}
 
 <hr />
 
@@ -29,7 +22,7 @@
 
 <h3>Template</h3>
 
-<code>{{ templateCode | raw }}</code>
+<code>{{ "{{ actionUrl('dump/backup', { key: '" ~ key ~ "' }) }}"|raw }}</code>
 
 <h3>URL</h3>
 
