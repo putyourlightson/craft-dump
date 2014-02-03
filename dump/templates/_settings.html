@@ -1,5 +1,6 @@
 {% import "_includes/forms" as forms %}
 
+
 {{ forms.textField({
     label: "Key"|t,
     id: 'key',
@@ -9,3 +10,27 @@
     autofocus: true,
     errors: settings.getErrors('key')
 }) }}
+
+
+{% if settings.key | length %}
+	{% set key = settings.key %}
+	{% set templateCode = "{{ actionUrl('dump/backup', { key: '" ~ key ~ "' }) }}" %}
+{% else %}
+	{% set key = "12345678" %}
+	{% set templateCode = "{{ actionUrl('dump/backup', { key: '" ~ key ~ "' }) }}" %}
+{% endif %}
+
+
+<hr />
+
+<h2>Examples</h2>
+
+<p>Simply create a GET or a POST request to the action URL.</p>
+
+<h3>Template</h3>
+
+<code>{{ templateCode | raw }}</code>
+
+<h3>URL</h3>
+
+<code>{{ actionUrl('dump/backup', { key: key }) }}</code>
