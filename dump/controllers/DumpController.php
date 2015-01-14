@@ -32,6 +32,9 @@ class DumpController extends BaseController
             die('Unauthorised key');
         }
 
+	    // Delete old backups if required
+	    $filesDeleted = $this->deleteOldBackups($settings->revisions);
+
         // run backup
         craft()->db->backup();
 
@@ -41,6 +44,38 @@ class DumpController extends BaseController
             $this->redirectToPostedUrl();
         }
 
-        die('Success');
+        die('Success. Removed ' . $filesDeleted . ' old backups');
     }
+
+	/**
+	 * Delete old backups
+	 * @param int $revisions
+	 * @return int
+	 */
+	private function deleteOldBackups($revisions = null)
+	{
+		$backupPath = craft()->path->getDbBackupPath();
+		// If a number is not passed return
+		if (!is_numeric($revisions)) {
+			return 0;
+		}
+
+		// Get a list of files in the backup directory and sort by descending order
+		if ($files = scandir($backupPath, SCANDIR_SORT_DESCENDING)) {
+
+			// Remove 'x' from the beginning of the array
+			$files = array_slice($files, ($revisions - 1));
+			$i = 0;
+			// Loop through any remaining files and delete them
+			foreach($files as $file) {
+				$filePath = $backupPath . $file;
+				if (is_file($filePath)) {
+					unlink($filePath);
+					$i++;
+				}
+			}
+
+			return $i;
+		}
+	}
 }
