@@ -33,7 +33,7 @@ class DumpController extends BaseController
         }
 
 	    // Delete old backups if required
-	    $filesDeleted = $this->deleteOldBackups($settings->revisions);
+	    $filesDeleted = $this->_deleteOldBackups($settings->revisions);
 
         // run backup
         craft()->db->backup();
@@ -49,27 +49,34 @@ class DumpController extends BaseController
 
 	/**
 	 * Delete old backups
+     *
 	 * @param int $revisions
 	 * @return int
 	 */
-	private function deleteOldBackups($revisions = null)
+	private function _deleteOldBackups($revisions = null)
 	{
-		$backupPath = craft()->path->getDbBackupPath();
 		// If a number is not passed return
-		if (!is_numeric($revisions)) {
+		if (!is_numeric($revisions))
+        {
 			return 0;
 		}
 
-		// Get a list of files in the backup directory and sort by descending order
-		if ($files = scandir($backupPath, SCANDIR_SORT_DESCENDING)) {
+    	$backupPath = craft()->path->getDbBackupPath();
 
+		// Get a list of files in the backup directory and sort by descending order
+		if ($files = scandir($backupPath, SCANDIR_SORT_DESCENDING))
+        {
 			// Remove 'x' from the beginning of the array
 			$files = array_slice($files, ($revisions - 1));
 			$i = 0;
+
 			// Loop through any remaining files and delete them
-			foreach($files as $file) {
+			foreach($files as $file)
+            {
 				$filePath = $backupPath . $file;
-				if (is_file($filePath)) {
+
+				if (is_file($filePath))
+                {
 					unlink($filePath);
 					$i++;
 				}
