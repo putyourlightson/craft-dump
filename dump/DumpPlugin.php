@@ -28,6 +28,7 @@ class DumpPlugin extends BasePlugin
     {
         return array(
             'key' => array(AttributeType::String, 'required' => true),
+	        'revisions' => array(AttributeType::String),
         );
     }
 

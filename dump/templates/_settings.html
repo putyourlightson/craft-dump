@@ -11,6 +11,15 @@
     errors: settings.getErrors('key')
 }) }}
 
+{{ forms.textField({
+    label: "Old backups to keep"|t,
+    id: 'revisions',
+    name: 'revisions',
+    instructions: "Set the maximum number of backups you would like to retain. Leave blank for unlimited * Warning * This could fill your server up!"|t,
+    value: settings.revisions,
+    errors: settings.getErrors('revisions')
+}) }}
+
 
 {% set key = settings.key ? settings.key : '1234567890' %}
 
@@ -27,3 +36,7 @@
 <h3>URL</h3>
 
 <code>{{ siteUrl(craft.config.get('actionTrigger') ~ '/dump/backup', { key: key }) }}</code>
+
+<h3>Cron</h3>
+<p>Create a cron job with the following command to create regular backups. Ensure you've set (above) the maximum number of backups to keep.</p>
+<code>wget {{ siteUrl(craft.config.get('actionTrigger') ~ '/dump/backup', { key: key }) }} >/dev/null 2>&1</code>
