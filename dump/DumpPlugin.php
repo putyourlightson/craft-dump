@@ -28,14 +28,42 @@ class DumpPlugin extends BasePlugin
     {
         return array(
             'key' => array(AttributeType::String, 'required' => true),
-	        'revisions' => array(AttributeType::String),
+	          'revisions' => array(AttributeType::String),
+            'folderId' => array(AttributeType::String)
         );
     }
 
     public function getSettingsHtml()
     {
-        return craft()->templates->render('dump/_settings', array(
-            'settings' => $this->getSettings()
-        ));
+      $sourceIds = craft()->assetSources->getAllSourceIds();
+      $tree = craft()->assets->getFolderTreeBySourceIds($sourceIds);
+
+      return craft()->templates->render('dump/_settings', array(
+          'settings' => $this->getSettings(),
+          'tree' => $tree
+      ));
+    }
+
+    public function init() {
+
+      craft()->on('db.onBackup', function(Event $event) {
+
+
+
+        $plugin = craft()->plugins->getPlugin('dump');
+        $settings = $plugin->getSettings();
+
+        $folderId = $settings->folderId;
+
+
+
+        if ($folderId > 0) {
+
+          $segments = explode("/", $event->params['filePath']);
+          $filename = array_pop($segments);
+          $response = craft()->assets->insertFileByLocalPath($event->params['filePath'], $filename, $folderId);
+        }
+
+      });
     }
 }

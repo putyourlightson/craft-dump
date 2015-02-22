@@ -14,6 +14,12 @@ class DumpController extends BaseController
      */
     public function actionBackup()
     {
+
+      //DumpPlugin::log('started dump', LogLevel::Error);
+
+
+
+
         // check if plugin is installed
         if (!$plugin = craft()->plugins->getPlugin('dump'))
         {
@@ -32,11 +38,17 @@ class DumpController extends BaseController
             die('Unauthorised key');
         }
 
-	    // Delete old backups if required
-	    $filesDeleted = $this->_deleteOldBackups($settings->revisions);
+
+        //DumpPlugin::log('ran backup');
+
+	      // Delete old backups if required
+	      $filesDeleted = craft()->dump->deleteOldBackups($settings->revisions, $settings->folderId);
+
 
         // run backup
-        craft()->db->backup();
+        $backup = craft()->db->backup();
+
+
 
         // check if a redirect was posted
         if (craft()->request->getPost('redirect'))
@@ -47,42 +59,4 @@ class DumpController extends BaseController
         die('Success. Removed ' . $filesDeleted . ' old backups');
     }
 
-	/**
-	 * Delete old backups
-     *
-	 * @param int $revisions
-	 * @return int
-	 */
-	private function _deleteOldBackups($revisions = null)
-	{
-		// If a number is not passed return
-		if (!is_numeric($revisions))
-        {
-			return 0;
-		}
-
-    	$backupPath = craft()->path->getDbBackupPath();
-
-		// Get a list of files in the backup directory and sort by descending order
-		if ($files = scandir($backupPath, SCANDIR_SORT_DESCENDING))
-        {
-			// Remove 'x' from the beginning of the array
-			$files = array_slice($files, ($revisions - 1));
-			$i = 0;
-
-			// Loop through any remaining files and delete them
-			foreach($files as $file)
-            {
-				$filePath = $backupPath . $file;
-
-				if (is_file($filePath))
-                {
-					unlink($filePath);
-					$i++;
-				}
-			}
-
-			return $i;
-		}
-	}
 }
