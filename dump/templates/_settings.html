@@ -1,6 +1,5 @@
 {% import "_includes/forms" as forms %}
 
-
 {{ forms.textField({
     label: "Key"|t,
     id: 'key',
@@ -10,6 +9,30 @@
     autofocus: true,
     errors: settings.getErrors('key')
 }) }}
+
+<div class="field">
+  <div class="heading">
+    <label for="settings-key">Assets Folder</label>
+    <div class="instructions">
+      <p>Select the assets folder to copy the backup into (works great with S3 or google cloud sources for an offsite backup).</p>
+    </div>
+  </div>
+  <select name="folderId">
+
+    <option value="0">
+      Dont save into assets
+    </option>
+    {% for folder in tree %}
+
+    <option value="{{folder.id}}" {% if settings.folderId == folder.id %} selected{% endif %}>
+      {{ folder.name}}
+    </option>
+
+    {% endfor %}
+  </select>
+</div>
+
+
 
 {{ forms.textField({
     label: "Old backups to keep"|t,
