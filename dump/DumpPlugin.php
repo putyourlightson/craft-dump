@@ -16,7 +16,7 @@ class DumpPlugin extends BasePlugin
 
     public function getDeveloper()
     {
-        return 'PutYourLightsOn (Ben Croker)';
+        return 'PutYourLightsOn';
     }
 
     public function getDeveloperUrl()
