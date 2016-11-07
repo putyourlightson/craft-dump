@@ -9,11 +9,6 @@ class DumpPlugin extends BasePlugin
         return Craft::t('Dump');
     }
 
-    public function getDescription()
-    {
-        return Craft::t('Simple way to create database backups locally and remotely.');
-    }
-
     public function getVersion()
     {
         return '0.3.0';
@@ -26,7 +21,17 @@ class DumpPlugin extends BasePlugin
 
     public function getDeveloperUrl()
     {
-        return 'http://www.putyourlightson.net';
+        return 'https://www.putyourlightson.net';
+    }
+
+    public function getDescription()
+    {
+        return Craft::t('Simple way to create database backups locally and remotely.');
+    }
+
+    public function getDocumentationUrl()
+    {
+        return 'https://github.com/putyourlightson/craft-dump';
     }
 
     protected function defineSettings()
