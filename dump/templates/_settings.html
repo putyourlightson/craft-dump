@@ -16,7 +16,8 @@
     name: "source",
     instructions: "Select the assets folder to copy the backup into (works great with S3 or Google Cloud Storage sources for offsite backup)."|t,
     options: craft.dump.getAllSources,
-    value: settings.source
+    value: settings.source,
+    errors: settings.getErrors('source')
 }) }}
 
 {{ forms.textField({

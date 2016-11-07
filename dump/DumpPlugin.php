@@ -11,7 +11,7 @@ class DumpPlugin extends BasePlugin
 
     public function getVersion()
     {
-        return '0.2.0';
+        return '0.3.0';
     }
 
     public function getDeveloper()
@@ -27,9 +27,9 @@ class DumpPlugin extends BasePlugin
     protected function defineSettings()
     {
         return array(
-            'key'       => array(AttributeType::String, 'required' => true),
-            'source'    => array(AttributeType::String, 'required' => true),
-	        'revisions' => array(AttributeType::String),
+            'key' => array(AttributeType::String, 'required' => true),
+            'source' => array(AttributeType::String, 'required' => true),
+            'revisions' => array(AttributeType::String),
         );
     }
 
