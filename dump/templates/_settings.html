@@ -1,6 +1,5 @@
 {% import "_includes/forms" as forms %}
 
-
 {{ forms.textField({
     label: "Key"|t,
     id: 'key',
@@ -9,6 +8,15 @@
     value: settings.key,
     autofocus: true,
     errors: settings.getErrors('key')
+}) }}
+
+{{ forms.select({
+    label: "Assets Folder"|t,
+    id: "source",
+    name: "source",
+    instructions: "Select the assets folder to copy the backup into (works great with S3 or Google Cloud Storage sources for offsite backup)."|t,
+    options: craft.dump.getAllSources,
+    value: settings.source
 }) }}
 
 {{ forms.textField({
