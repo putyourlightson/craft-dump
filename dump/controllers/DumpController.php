@@ -36,15 +36,18 @@ class DumpController extends BaseController
         // run backup and capture the URL
         $url = craft()->db->backup();
 
-        // create temporary file
-        $temp = tempnam('/tmp', 'DB_');
+        // if a source is set
+        if (!empty($settings->source)) {
+            // create temporary file
+            $temp = tempnam('/tmp', 'DB_');
 
-        // copy data from backup into the temporary file
-        $data = file_get_contents($url);
-        file_put_contents($temp, $data);
+            // copy data from backup into the temporary file
+            $data = file_get_contents($url);
+            file_put_contents($temp, $data);
 
-        // place the tempoarary file into designated asset source, using '.txt' since '.sql' is not an accepted format
-        craft()->assets->insertFileByLocalPath($temp, basename($url).'.txt', $settings->source);
+            // place the temporary file into designated asset source, using '.txt' since '.sql' is not an accepted format
+            craft()->assets->insertFileByLocalPath($temp, basename($url).'.txt', $settings->source);
+        }
 
         // check if a redirect was posted
         if (craft()->request->getPost('redirect')) {
