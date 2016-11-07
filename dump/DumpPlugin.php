@@ -27,7 +27,8 @@ class DumpPlugin extends BasePlugin
     protected function defineSettings()
     {
         return array(
-            'key' => array(AttributeType::String, 'required' => true),
+            'key'       => array(AttributeType::String, 'required' => true),
+            'source'    => array(AttributeType::String, 'required' => true),
 	        'revisions' => array(AttributeType::String),
         );
     }
