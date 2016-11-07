@@ -9,6 +9,11 @@ class DumpPlugin extends BasePlugin
         return Craft::t('Dump');
     }
 
+    public function getDescription()
+    {
+        return Craft::t('Simple way to create database backups locally and remotely.');
+    }
+
     public function getVersion()
     {
         return '0.3.0';
