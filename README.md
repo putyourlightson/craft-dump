@@ -1,7 +1,7 @@
-Craft Dump
+Craft Dump for Craft CMS 2
 ==========
 
-Simple way to create DB backups in Craft CMS.
+Simple way to create DB backups in Craft CMS 2.
 
 Install the plugin and set a key in the settings.
 
